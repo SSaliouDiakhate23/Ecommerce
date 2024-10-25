@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+a.active div{
+  display: block;
+  transition: all ease 0.5s;
+}
