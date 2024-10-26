@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
 import { NavLink, Link } from "react-router-dom";
 import { SlArrowLeftCircle } from "react-icons/sl";
@@ -69,7 +69,7 @@ function Navbar() {
           className="w-5 cursor-pointer sm:hidden"
         />
         <div
-          className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
+          className={`absolute top-0 right-0 bottom-0  overflow-hidden bg-white transition-all ${
             isVisible ? "w-full" : "w-0"
           }`}
         >

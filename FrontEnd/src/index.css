@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Prata&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,4 +8,13 @@
 a.active div{
   display: block;
   transition: all ease 0.5s;
+}
+*{
+  font-family: Outfit;
+}
+
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  font-style: normal;
 }

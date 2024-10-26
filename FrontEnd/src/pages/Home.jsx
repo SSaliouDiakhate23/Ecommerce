@@ -1,7 +1,12 @@
-import React from "react";
-
+import LatestCollection from "../components/LatestCollection";
+import Hero from "../components/Hero";
 function Home() {
-  return <></>;
+  return (
+    <>
+      <Hero />
+      <LatestCollection />
+    </>
+  );
 }
 
 export default Home;
