@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Placeholder from "./pages/Placeholder";
 import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
+import Footer from "./components/footer";
 function App() {
   return (
     <>
@@ -26,6 +27,7 @@ function App() {
           <Route path="/placeholder" element={<Placeholder />} />
           <Route path="/orders" element={<Orders />} />
         </Routes>
+        <Footer />
       </div>
     </>
   );
