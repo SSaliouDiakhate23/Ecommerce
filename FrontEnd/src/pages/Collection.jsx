@@ -1,80 +1,132 @@
-// const handleTextChange = (e) => {
-//   setFilterText(e.target.value);
-// };
-
-// // Appliquer le filtre basé sur `filterText`
-// const applyFilter = () => {
-//   let productCopy = products;
-
-//   if (filterText.trim() !== "") {
-//     productCopy = productCopy.filter((item) =>
-//       item.name.toLowerCase().includes(filterText.toLowerCase()) ||
-//       item.category.toLowerCase().includes(filterText.toLowerCase())
-//     );
-//   }
-
-import React, { useContext, useEffect, useState } from "react";
+// Imports nécessaires
+import { useContext, useEffect, useState } from "react"; // Suppression de React car non utilisé
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/frontend_assets/assets";
 import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
 
 function Collection() {
+  // Récupération des produits depuis le contexte
   const { products } = useContext(ShopContext);
-  const [showFilter, setShowFilter] = useState(true);
-  const [filterProduct, setFilterProduct] = useState([]);
-  const [categorie, setCategorie] = useState([]);
-  const [subCategorie, setSubCategorie] = useState([]);
 
+  // États pour gérer l'interface et les filtres
+  const [isLoading, setIsLoading] = useState(true); // État de chargement
+  const [showFilter, setShowFilter] = useState(true); // Visibilité du panneau de filtres
+  const [filterProduct, setFilterProduct] = useState([]); // Liste des produits filtrés
+  const [categorie, setCategorie] = useState([]); // Filtres de catégories sélectionnés
+  const [subCategorie, setSubCategorie] = useState([]); // Filtres de sous-catégories sélectionnés
+  const [search, setSearch] = useState(""); // Terme de recherche
+  const [shortByPrice, setShortByPrice] = useState("relevant"); // Option de tri par prix
+
+  // Gestion des filtres de catégories
   function toggleCategorie(e) {
     if (categorie.includes(e.target.value)) {
+      // Retire la catégorie si déjà sélectionnée
       setCategorie((prev) => prev.filter((item) => item !== e.target.value));
     } else {
+      // Ajoute la catégorie si non sélectionnée
       setCategorie((prev) => [...prev, e.target.value]);
     }
   }
 
+  // Gestion des filtres de sous-catégories
   function toggleSubCategorie(e) {
     if (subCategorie.includes(e.target.value)) {
-      setSubCategorie((prevSub) =>
-        prevSub.filter((item) => item !== e.target.value)
-      );
+      // Retire la sous-catégorie si déjà sélectionnée
+      setSubCategorie((prev) => prev.filter((item) => item !== e.target.value));
     } else {
-      setSubCategorie((prevSub) => [...prevSub, e.target.value]);
+      // Ajoute la sous-catégorie si non sélectionnée
+      setSubCategorie((prev) => [...prev, e.target.value]);
     }
   }
 
-  const applyFilter = () => {
-    let productCopy = products;
+  // Application des filtres sur les produits
+  function applyFilter() {
+    setIsLoading(true);
+    let copyProduct = products;
+
+    // Filtre par catégorie
     if (categorie.length > 0) {
-      productCopy = productCopy.filter((item) =>
+      copyProduct = copyProduct.filter((item) =>
         categorie.includes(item.category)
       );
     }
+
+    // Filtre par sous-catégorie
     if (subCategorie.length > 0) {
-      productCopy = productCopy.filter((item) =>
+      copyProduct = copyProduct.filter((item) =>
         subCategorie.includes(item.subCategory)
       );
     }
-    console.log(productCopy);
 
-    setFilterProduct(productCopy);
-  };
+    // Filtre par recherche textuelle
+    if (search !== "") {
+      copyProduct = copyProduct.filter((item) =>
+        item.name.toUpperCase().includes(search.toUpperCase())
+      );
+    }
 
+    setFilterProduct(copyProduct);
+    setIsLoading(false);
+  }
+
+  // Toggle pour afficher/masquer le panneau de filtres (mobile)
   const handleFilter = () => {
     setShowFilter(!showFilter);
   };
 
+  // Initialisation des produits au chargement
   useEffect(() => {
-    setFilterProduct(products);
+    const initializeProducts = async () => {
+      setIsLoading(true);
+      try {
+        setFilterProduct(products);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeProducts();
   }, [products]);
 
+  // Applique les filtres quand les critères changent
   useEffect(() => {
     applyFilter();
-  }, [categorie, subCategorie]);
+  }, [categorie, subCategorie, search]);
+
+  // Gestion du tri par prix
+  function handleSort() {
+    if (shortByPrice === "relevant") {
+      applyFilter();
+      return;
+    }
+
+    // Tri des produits par prix (croissant ou décroissant)
+    const shortProduct = [...filterProduct];
+    const sorted = shortProduct.sort((a, b) =>
+      shortByPrice === "low-high" ? a.price - b.price : b.price - a.price
+    );
+    setFilterProduct(sorted);
+  }
+
+  // Applique le tri quand l'option change
+  useEffect(() => {
+    handleSort();
+  }, [shortByPrice]);
 
   return (
     <>
+      <div className="w-1/2 mx-auto my-10 flex">
+        <input
+          type="text"
+          value={search}
+          className=" pl-3 border border-gray-300 outline-none w-full"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button className="bg-black py-2 px-8 text-center text-sm text-white">
+          Search product
+        </button>
+      </div>
       <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
         {/* Filter Option */}
         <div className="min-w-60">
@@ -151,7 +203,7 @@ function Collection() {
                   value={"Bottomwear"}
                   onChange={toggleSubCategorie}
                 />{" "}
-                Bottowear
+                Bottomwear
               </p>
               <p className="flex gap-2">
                 <input
@@ -169,23 +221,35 @@ function Collection() {
         <div className="flex-1">
           <div className="flex justify-between text-base sm:text-2xl mb-4">
             <Title text1={"ALL"} text2={"COLLECTION"} />
-            <select className="border-2 border-gray-200 text-sm px-2">
+            <select
+              onChange={(e) => {
+                setShortByPrice(e.target.value);
+              }}
+              className="border-2 border-gray-200 text-sm px-2"
+            >
               <option value="relevant">Sort by: Relevant</option>
               <option value="low-high">Sort by: Low to High</option>
               <option value="high-low">Sort by: High to Low</option>
             </select>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
-            {filterProduct.map((item, index) => (
-              <ProductItem
-                key={index}
-                id={item._id}
-                image={item.image}
-                name={item.name}
-                price={item.price}
-              />
-            ))}
-          </div>
+
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+              {filterProduct.map((item, index) => (
+                <ProductItem
+                  key={index}
+                  id={item._id}
+                  image={item.image}
+                  name={item.name}
+                  price={item.price}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>
