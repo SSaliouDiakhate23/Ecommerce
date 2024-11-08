@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
 import { NavLink, Link } from "react-router-dom";
 import { SlArrowLeftCircle } from "react-icons/sl";
+import { ShopContext } from "../context/ShopContext";
 
 function Navbar() {
   const [isVisible, setIsVisible] = useState(false);
+  const { setShowSearch } = useContext(ShopContext);
+
   console.log(isVisible);
   return (
     <div className="flex items-center justify-between py-5 font-medium">
@@ -34,7 +37,14 @@ function Navbar() {
       </ul>
 
       <div className="flex items-center gap-6">
-        <img src={assets.search_icon} alt="" className="w-5 cursor-pointer" />
+        <img
+          src={assets.search_icon}
+          alt=""
+          className="w-5 cursor-pointer"
+          onClick={() => {
+            setShowSearch((prev) => !prev);
+          }}
+        />
         <div className="group relative duration-200">
           <img
             src={assets.profile_icon}
@@ -58,8 +68,8 @@ function Navbar() {
         </div>
         <Link to="/cart" className="relative">
           <img src={assets.cart_icon} alt="" className=" w-5 min-w-5" />
-          <p className="absolute -bottom-[5px] -right-[5px] bg-red-500 text-white rounded-full text-center leading-4 w-4 text-sm ">
-            1
+          <p className="absolute -bottom-[5px] -right-[5px]  bg-black text-white rounded-full text-center leading-4 w-4 text-xs ">
+            3
           </p>
         </Link>
         <img

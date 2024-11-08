@@ -7,7 +7,7 @@ import ProductItem from "../components/ProductItem";
 
 function Collection() {
   // Récupération des produits depuis le contexte
-  const { products } = useContext(ShopContext);
+  const { products, search } = useContext(ShopContext);
 
   // États pour gérer l'interface et les filtres
   const [isLoading, setIsLoading] = useState(true); // État de chargement
@@ -15,7 +15,7 @@ function Collection() {
   const [filterProduct, setFilterProduct] = useState([]); // Liste des produits filtrés
   const [categorie, setCategorie] = useState([]); // Filtres de catégories sélectionnés
   const [subCategorie, setSubCategorie] = useState([]); // Filtres de sous-catégories sélectionnés
-  const [search, setSearch] = useState(""); // Terme de recherche
+
   const [shortByPrice, setShortByPrice] = useState("relevant"); // Option de tri par prix
 
   // Gestion des filtres de catégories
@@ -59,10 +59,10 @@ function Collection() {
       );
     }
 
-    // Filtre par recherche textuelle
-    if (search !== "") {
+    // Filtre par recherche
+    if (search.trim() !== "") {
       copyProduct = copyProduct.filter((item) =>
-        item.name.toUpperCase().includes(search.toUpperCase())
+        item.name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
@@ -87,7 +87,7 @@ function Collection() {
     };
 
     initializeProducts();
-  }, [products]);
+  }, []);
 
   // Applique les filtres quand les critères changent
   useEffect(() => {
@@ -116,17 +116,6 @@ function Collection() {
 
   return (
     <>
-      <div className="w-1/2 mx-auto my-10 flex">
-        <input
-          type="text"
-          value={search}
-          className=" pl-3 border border-gray-300 outline-none w-full"
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button className="bg-black py-2 px-8 text-center text-sm text-white">
-          Search product
-        </button>
-      </div>
       <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
         {/* Filter Option */}
         <div className="min-w-60">
