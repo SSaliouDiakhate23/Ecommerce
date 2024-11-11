@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/frontend_assets/assets";
+import RelatedProduct from "../components/RelatedProduct";
+import Title from "../components/Title";
 
 function Product() {
   const { productId } = useParams();
@@ -39,7 +41,7 @@ function Product() {
   ) : (
     <>
       <hr className="w-full bg-gray-900 mb-6 md:mb-10" />
-      <div className="container mx-auto px-4 flex flex-col-reverse md:flex-row items-start gap-4 md:gap-8 lg:gap-10 transition-all duration-300 ease-in-out">
+      <div className="flex flex-col-reverse md:flex-row items-start gap-4 md:gap-8 lg:gap-10 transition-all duration-300 ease-in-out">
         {/* Thumbnails Gallery */}
         <div className="w-full md:w-24 lg:w-32 transition-all duration-300">
           <div className="flex  flex-row md:flex-col gap-2 md:gap-4 items-center justify-center">
@@ -114,7 +116,48 @@ function Product() {
           </button>
 
           <hr className="w-full bg-black mb-6 my-6 md:my-10" />
+          <div className="text-sm flex flex-col gap-2">
+            <p>100% Secure Payment</p>
+            <p>Easy Return Policy</p>
+            <p>24/7 Customer Support</p>
+          </div>
         </div>
+      </div>
+      <div className="w-full mt-10 sm:mt-16">
+        <div className="flex">
+          <p className="border border-gray-400 px-6 py-3 text-center text-xs sm:text-sm font-bold">
+            Description
+          </p>
+          <p className="border border-gray-400 px-6 py-3 text-center text-xs sm:text-sm ">
+            Reviews(122)
+          </p>
+        </div>
+        <div className="w-full flex flex-col gap-4 border pt-4 py-4 sm:py-8 px-4 border-gray-400">
+          <p className="text-xs sm:text-sm font-light ">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio,
+            nihil sapiente! Cumque doloremque mollitia odio reprehenderit
+            minima, expedita ex ratione unde explicabo eum repudiandae quidem
+            officiis architecto labore accusantium. Dicta. expedita ex ratione
+            unde explicabo eum repudiandae quidem officiis architecto labore
+            accusantium. Dicta.
+          </p>
+
+          <p className="text-xs sm:text-sm font-light">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio,
+            nihil sapiente! Cumque doloremque mollitia odio reprehenderit
+            minima, expedita ex ratione unde explicabo eum repudiandae quidem
+            officiis architecto labore accusantium. Dicta.
+          </p>
+        </div>
+      </div>
+      <div className="mt-10 md:mt-10 flex flex-col items-center gap-4">
+        <div className="text-center text-2xl sm:text-3xl">
+          <Title text1="Related" text2={"Products"} />
+        </div>
+        <RelatedProduct
+          category={product.category}
+          subcategory={product.subcategory}
+        />
       </div>
     </>
   );
