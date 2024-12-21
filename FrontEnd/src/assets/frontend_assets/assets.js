@@ -53,7 +53,7 @@ import p_img49 from './p_img49.png'
 import p_img50 from './p_img50.png'
 import p_img51 from './p_img51.png'
 import p_img52 from './p_img52.png'
-
+import wili from './wili.png'
 
 import logo from './logo.png'
 import hero_img from './hero_img.png'
@@ -94,7 +94,8 @@ export const assets = {
     razorpay_logo,
     stripe_logo,
     cross_icon,
-    mode
+    mode,
+    wili
 }
 
 export const products = [

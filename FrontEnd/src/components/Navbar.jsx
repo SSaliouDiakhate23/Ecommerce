@@ -6,7 +6,7 @@ import { ShopContext } from "../context/ShopContext";
 
 function Navbar() {
   const [isVisible, setIsVisible] = useState(false);
-  const { setShowSearch } = useContext(ShopContext);
+  const { setShowSearch, getCartCount } = useContext(ShopContext);
 
   console.log(isVisible);
   return (
@@ -69,7 +69,7 @@ function Navbar() {
         <Link to="/cart" className="relative">
           <img src={assets.cart_icon} alt="" className=" w-5 min-w-5" />
           <p className="absolute -bottom-[5px] -right-[5px]  bg-black text-white rounded-full text-center leading-4 w-4 text-xs ">
-            3
+            {getCartCount()}
           </p>
         </Link>
         <img

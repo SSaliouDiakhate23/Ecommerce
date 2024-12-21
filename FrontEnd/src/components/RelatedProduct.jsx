@@ -18,18 +18,22 @@ function RelatedProduct({ category, subcategory }) {
   useEffect(() => {
     filterProducts();
   }, [products]);
+
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {relatedProduct.map((item) => {
           return (
-            <ProductItem
-              key={item._id}
-              id={item._id}
-              image={item.image}
-              name={item.name}
-              price={item.price}
-            />
+            // eslint-disable-next-line react/jsx-key
+            <div>
+              <ProductItem
+                key={item._id}
+                id={item._id}
+                image={item.image}
+                name={item.name}
+                price={item.price}
+              />
+            </div>
           );
         })}
       </div>

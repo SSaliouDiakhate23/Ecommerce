@@ -7,7 +7,7 @@ import Title from "../components/Title";
 
 function Product() {
   const { productId } = useParams();
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency, addToCart } = useContext(ShopContext);
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [image, setImage] = useState(null);
@@ -35,7 +35,7 @@ function Product() {
   }, [productId, product]);
 
   return isLoading ? (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex  transition-all duration-300 ease-in-out items-center h-screen">
       <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
     </div>
   ) : (
@@ -111,7 +111,12 @@ function Product() {
               </div>
             ))}
           </div>
-          <button className="bg-gray-900 transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:border hover:border-black text-white px-8 py-3 rounded mt-4  md:mt-8">
+          <button
+            onClick={() => {
+              addToCart(product._id, selectedSize);
+            }}
+            className="bg-gray-900 transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:border hover:border-black text-white px-8 py-3 rounded mt-4  md:mt-8"
+          >
             Add to Cart
           </button>
 
