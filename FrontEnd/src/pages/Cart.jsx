@@ -2,9 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
 import { assets } from "../assets/frontend_assets/assets";
+import { toast } from "react-toastify";
+import CartTotal from "../components/CartTotal";
 
 function Cart() {
-  const { products, cartItems, currency, UpdateQuantity } =
+  const { products, cartItems, currency, UpdateQuantity, Navigate } =
     useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
@@ -63,7 +65,17 @@ function Cart() {
 
               <input
                 type="number"
-                value={item.quantity}
+                min={1}
+                defaultValue={item.quantity}
+                onChange={(e) =>
+                  e.target.value > 0
+                    ? UpdateQuantity(
+                        item._id,
+                        item.size,
+                        Number(e.target.value)
+                      )
+                    : UpdateQuantity(item._id, item.size, 1)
+                }
                 className="border max-w-10 sm:max-w-20 px-1 py-1 "
               />
               <img
@@ -75,6 +87,17 @@ function Cart() {
             </div>
           );
         })}
+        <div className="flex justify-end my-20">
+          <div className="w-full sm:w-[450px]">
+            <CartTotal />
+            <button
+              onClick={() => Navigate("/placeholder")}
+              className="w-full bg-black text-white text-sm my-8 px-8 py-3"
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );

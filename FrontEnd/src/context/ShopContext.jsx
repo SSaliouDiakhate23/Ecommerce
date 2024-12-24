@@ -3,6 +3,7 @@ import { createContext } from "react";
 import { products } from "../assets/frontend_assets/assets";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const ShopContext = createContext();
 
@@ -12,7 +13,7 @@ const ShopContextProvider = (props) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(true);
   const [cartItems, setCartItems] = useState({});
-
+  const Navigate = useNavigate();
   const addToCart = (itemId, size) => {
     if (!size) {
       toast.error("please select a size !");
@@ -62,6 +63,22 @@ const ShopContextProvider = (props) => {
     }
     setCartItems(cartData);
   }
+  function getCartAmout() {
+    let total = 0;
+    for (const items in cartItems) {
+      for (const item in cartItems[items]) {
+        if (cartItems[items][item] > 0) {
+          try {
+            const product = products.find((product) => product._id === items);
+            total += product.price * cartItems[items][item];
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+    }
+    return total;
+  }
   const value = {
     products,
     currency,
@@ -75,6 +92,8 @@ const ShopContextProvider = (props) => {
     setCartItems,
     getCartCount,
     UpdateQuantity,
+    getCartAmout,
+    Navigate,
   };
 
   return (
