@@ -1,12 +1,15 @@
-import React from "react";
 import { useState } from "react";
 function Login() {
   const [currentSate, setCurrentState] = useState("sign Up");
+  async function onSubmit(e) {
+    e.preventDefault();
+  }
   return (
     <div>
       <form
         action=""
         className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800  "
+        onSubmit={onSubmit}
       >
         <div className=" inline-flex items-center gap-2 mb-2 mt-10">
           <p className="prata-regular text-3xl ">{currentSate}</p>
@@ -57,6 +60,9 @@ function Login() {
             </p>
           )}
         </div>
+        <button className="bg-black text-white font-light px-8 py-3 mt-4 ">
+          {currentSate === "sign Up" ? "Sign Up" : "Sign In"}
+        </button>
       </form>
     </div>
   );
