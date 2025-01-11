@@ -5,6 +5,7 @@ import { assets } from "../assets/frontend_assets/assets";
 import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
 
+
 function Collection() {
   // Récupération des produits depuis le contexte
   const { products, search } = useContext(ShopContext);

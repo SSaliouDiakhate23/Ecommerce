@@ -14,15 +14,17 @@ const footer = () => {
             Est natus distinctio omnis.
           </p>
         </div>
+
         <div className="">
-          <p className="text-xl font-medium mb-5">COMPAGNY</p>
+          <p className="text-xl font-medium mb-5">ENTREPRISE</p>
           <ul className="flex flex-col gap-1 text-gray-600">
-            <li>Home</li>
-            <li>About us</li>
-            <li> Delivery</li>
-            <li>Privacy Policy</li>
+            <li>Accueil</li>
+            <li>À propos de nous</li>
+            <li>Livraison</li>
+            <li>Politique de confidentialité</li>
           </ul>
         </div>
+
         <div className="">
           <p className="text-xl font-medium mb-5">GET IN TOUCH</p>
           <ul className="flex flex-col gap-1 text-gray-600">
@@ -33,7 +35,7 @@ const footer = () => {
       </div>
       <div>
         <hr />
-        <p className="py-5 text-sm text-center">
+        <p className="py-5 text-sm text-center text-gray-300">
           Copyright 2024@ forever.com -All Right Reserved
         </p>
       </div>
